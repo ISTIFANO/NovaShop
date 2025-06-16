@@ -3,7 +3,9 @@ package com.example.novashop22.infrastructure.database.entities;
 import jakarta.persistence.*;
 import lombok.*;
 
+import java.util.ArrayList;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 @Getter
@@ -35,4 +37,18 @@ public class User {
 @ManyToMany(cascade = {CascadeType.PERSIST ,CascadeType.MERGE} ,fetch = FetchType.EAGER)
 
 @JoinTable(name = "user_role", joinColumns = @JoinColumn(name = "user_id"), inverseJoinColumns = @JoinColumn(name = "role_id"))
-private Set<Role> roles = new HashSet<>();}
+private Set<Role> roles = new HashSet<>();
+
+   @ManyToMany(cascade = { CascadeType.PERSIST, CascadeType.MERGE })
+   @JoinTable(
+           name = "user_address",
+           joinColumns = @JoinColumn(name = "user_id"),
+           inverseJoinColumns = @JoinColumn(name = "address_id")
+   )
+   private List<Address> addresses = new ArrayList<>();
+
+
+   @OneToOne(mappedBy = "user", cascade = { CascadeType.PERSIST, CascadeType.MERGE }, orphanRemoval = true)
+   private Cart cart;
+
+}

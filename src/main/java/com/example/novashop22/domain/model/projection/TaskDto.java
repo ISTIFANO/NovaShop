@@ -1,4 +1,4 @@
-package com.example.novashop22.domain.model.task;
+package com.example.novashop22.domain.model.projection;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.Data;

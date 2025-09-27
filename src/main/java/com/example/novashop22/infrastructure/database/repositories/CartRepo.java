@@ -13,7 +13,6 @@ public interface CartRepo extends JpaRepository<Cart, Long> {
     @Query("select c from Cart c where c.user.email = ?1 and c.cartId = ?2")
     Cart findCartByEmailAndCartId(String email, Long cartId);
 
-    @Query("select distinct c from Cart c JOIN fetch c.cartItems ci JOIN FETCH ci.product p where p.productId = ?1")
-    List<Cart> findByProductId(Long productId);
-
+    @Query("SELECT c FROM Cart c JOIN FETCH c.cartItems ci JOIN FETCH ci.product p WHERE p.id = ?1")
+    List<Cart> findCartsByProductId(Long productId);
 }

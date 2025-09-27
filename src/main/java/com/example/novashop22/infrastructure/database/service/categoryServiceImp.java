@@ -19,7 +19,7 @@ public class categoryServiceImp implements ICategorieService {
     @Override
     public CategorieDto getCategoryById(Long id){
 
-      Category category =categoryRepo.findbyCategoryId(id);
+      Category category =categoryRepo.findByCategoryId(id);
 
       if(category==null){
           return null;
@@ -49,7 +49,7 @@ public class categoryServiceImp implements ICategorieService {
 
     @Override
     public CategorieDto updateCategorie(Long id, Category categorie){
-        Category category =categoryRepo.findbyCategoryId(id);
+        Category category =categoryRepo.findByCategoryId(id);
         if(category==null){
             return null;
         }
@@ -61,7 +61,7 @@ public class categoryServiceImp implements ICategorieService {
     }
     @Override
     public  String deleteCategorie(Long id){
-        Category category =categoryRepo.findbyCategoryId(id);
+        Category category =categoryRepo.findByCategoryId(id);
         if(category==null){
             return null;
         }

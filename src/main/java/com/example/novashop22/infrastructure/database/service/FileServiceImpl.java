@@ -1,13 +1,14 @@
 package com.example.novashop22.infrastructure.database.service;
 
 import com.example.novashop22.domain.service.IFileService;
+import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.*;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.UUID;
-
+@Service
 public class FileServiceImpl implements IFileService {
 
 

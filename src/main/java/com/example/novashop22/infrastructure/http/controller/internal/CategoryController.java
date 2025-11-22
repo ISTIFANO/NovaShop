@@ -20,16 +20,26 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.tags.Tag;
+import io.swagger.v3.oas.annotations.responses.ApiResponses;
+import io.swagger.v3.oas.annotations.responses.ApiResponse;
 
 
 @RestController
 @RequestMapping("/api")
-//@SecurityRequirement(name = "E-Commerce Application")
+@Tag(name = "Categories", description = "Endpoints for category management and browsing")
 public class CategoryController {
 
     @Autowired
     private ICategorieService categoryService;
 
+    @Operation(summary = "Create category", description = "Create a new category (admin)")
+    @ApiResponses({
+            @ApiResponse(responseCode = "201", description = "Category created"),
+            @ApiResponse(responseCode = "400", description = "Invalid input"),
+            @ApiResponse(responseCode = "500", description = "Internal server error")
+    })
     @PostMapping("/admin/category")
     public ResponseEntity<CategorieDto> createCategory(@Valid @RequestBody Category category) {
         CategorieDto savedCategorieDto = categoryService.createCategorie(category);
@@ -37,6 +47,11 @@ public class CategoryController {
         return new ResponseEntity<CategorieDto>(savedCategorieDto, HttpStatus.CREATED);
     }
 
+    @Operation(summary = "Get categories", description = "Retrieve paginated categories")
+    @ApiResponses({
+            @ApiResponse(responseCode = "302", description = "Categories found"),
+            @ApiResponse(responseCode = "500", description = "Internal server error")
+    })
     @GetMapping("/public/categories")
     public ResponseEntity<CategoryResponse> getCategories(
             @RequestParam(name = "pageNumber", defaultValue = AppConstants.PAGE_NUMBER, required = false) Integer pageNumber,
@@ -49,6 +64,11 @@ public class CategoryController {
         return new ResponseEntity<CategoryResponse>(categoryResponse, HttpStatus.FOUND);
     }
 
+    @Operation(summary = "Update category", description = "Update an existing category (admin)")
+    @ApiResponses({
+            @ApiResponse(responseCode = "200", description = "Category updated"),
+            @ApiResponse(responseCode = "404", description = "Category not found")
+    })
     @PutMapping("/admin/categories/{categoryId}")
     public ResponseEntity<CategorieDto> updateCategory(@RequestBody Category category,
                                                       @PathVariable Long categoryId) {
@@ -57,6 +77,11 @@ public class CategoryController {
         return new ResponseEntity<CategorieDto>(categoryDTO, HttpStatus.OK);
     }
 
+    @Operation(summary = "Delete category", description = "Delete a category by id (admin)")
+    @ApiResponses({
+            @ApiResponse(responseCode = "200", description = "Category deleted"),
+            @ApiResponse(responseCode = "404", description = "Category not found")
+    })
     @DeleteMapping("/admin/categories/{categoryId}")
     public ResponseEntity<String> deleteCategory(@PathVariable Long categoryId) {
         String status = categoryService.deleteCategorie(categoryId);
